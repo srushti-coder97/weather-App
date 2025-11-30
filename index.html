@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 1s ease forwards; }
+
+    /* Cloud movement */
+    @keyframes moveClouds {
+      0% { transform: translateX(-150px); opacity: 0.7; }
+      100% { transform: translateX(100vw); opacity: 1; }
+    }
+    .cloud {
+      animation: moveClouds 18s linear infinite;
+    }
+
+    /* Sun rotation */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .sun {
+      animation: spin 10s linear infinite;
+    }
+
+    /* Moon glow */
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 8px white); }
+      50% { filter: drop-shadow(0 0 18px white); }
+    }
+    .moon {
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    /* Weather box reveal */
+    .weather-box {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+  </style>
+</head>
+
+<body id="screen" class="min-h-screen flex flex-col items-center justify-center overflow-hidden transition-all duration-700">
+
+  <!-- Moving Clouds -->
+  <div class="absolute top-10 left-0 text-white text-5xl cloud">☁️</div>
+  <div class="absolute top-28 left-0 text-white text-6xl cloud" style="animation-duration: 25s;">☁️</div>
+  <div class="absolute top-44 left-0 text-white text-5xl cloud" style="animation-duration: 30s;">☁️</div>
+
+  <!-- Sun/Moon -->
+  <div id="skyIcon" class="text-7xl mt-10"></div>
+
+  <div class="glass p-8 rounded-3xl shadow-2xl w-80 text-center text-white fade-in mt-10">
+
+    <h1 class="text-3xl font-bold mb-6">🌤 Weather App</h1>
+
+    <input 
+      type="text"
+      placeholder="Enter city name..."
+      class="w-full p-3 rounded-xl text-black mb-4 outline-none"
+      id="cityInput"
+    />
+
+    <button 
+      class="bg-white text-blue-600 font-semibold w-full p-3 rounded-xl shadow-lg hover:scale-105 transition"
+      id="searchBtn"
+    >
+      Search
+    </button>
+
+    <!-- Weather Info -->
+    <div class="mt-6 weather-box">
+      <h2 class="text-2xl font-bold city">City Name</h2>
+      <p class="text-4xl font-bold temp">--°C</p>
+      <p class="text-lg weather capitalize">Weather</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Day / Night Theme
+    function updateTheme() {
+      const hour = new Date().getHours();
+      const screen = document.getElementById("screen");
+      const icon = document.getElementById("skyIcon");
+
+      if (hour >= 6 && hour < 18) {
+        // DAY MODE
+        screen.className = "bg-gradient-to-br from-blue-300 via-blue-400 to-yellow-200 min-h-screen flex flex-col items-center justify-center";
+        icon.innerHTML = "☀️";
+        icon.className = "sun text-7xl mt-10";
+      } else {
+        // NIGHT MODE
+        screen.className = "bg-gradient-to-br from-gray-900 via-gray-800 to-black min-h-screen flex flex-col items-center justify-center";
+        icon.innerHTML = "🌙";
+        icon.className = "moon text-7xl mt-10";
+      }
+    }
+
+    updateTheme();
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
